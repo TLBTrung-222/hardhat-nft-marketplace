@@ -106,7 +106,7 @@ contract NftMarketPlace is ReentrancyGuard {
         isOwner(nftContractAddress, tokenId, msg.sender)
     {
         // the price need to higher than 0
-        if (price < 0) {
+        if (price <= 0) {
             revert NftMarketPlace__PriceMustBeAboveZero();
         }
 
