@@ -19,7 +19,6 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         log("Verifing...");
         await verify(basicNft.address, []);
     }
-    console.log(await basicNft.connect(accounts[1]));
 };
 
 module.exports.tags = ["all", "basicNft"];

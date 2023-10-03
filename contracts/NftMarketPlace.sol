@@ -4,16 +4,16 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/interfaces/IERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-error NftMarketPlace__PriceMustBeAboveZero();
-error NftMarketPlace__NotApprovedForMarketPlace();
-error NftMarketPlace__AlreadyListed();
-error NftMarketPlace__NotOwner();
-error NftMarketPlace__PriceNotMet();
-error NftMarketPlace__NotListed();
-error NftMarketPlace__NotEnoughProceeds();
-error NftMarketPlace__WithdrawProceedsFailed();
+error PriceMustBeAboveZero();
+error NotApprovedForMarketPlace();
+error AlreadyListed();
+error NotOwner();
+error PriceNotMet();
+error NotListed();
+error NotEnoughProceeds();
+error WithdrawProceedsFailed();
 
-contract NftMarketPlace is ReentrancyGuard {
+contract NftMarketplace is ReentrancyGuard {
     struct Listing {
         address seller;
         uint256 price;
@@ -54,14 +54,14 @@ contract NftMarketPlace is ReentrancyGuard {
     modifier notBeingListed(address nftContractAddress, uint256 tokenId) {
         // if the NFT listed before, the price will be > 0
         if (s_listings[nftContractAddress][tokenId].price > 0) {
-            revert NftMarketPlace__AlreadyListed();
+            revert AlreadyListed();
         }
         _;
     }
 
     modifier isBeingListed(address nftContractAddress, uint256 tokenId) {
         if (s_listings[nftContractAddress][tokenId].price <= 0) {
-            revert NftMarketPlace__NotListed();
+            revert NotListed();
         }
         _;
     }
@@ -78,7 +78,7 @@ contract NftMarketPlace is ReentrancyGuard {
 
         // 2. compare owner of NFT vs seller
         if (owner != seller) {
-            revert NftMarketPlace__NotOwner();
+            revert NotOwner();
         }
         _;
     }
@@ -107,14 +107,14 @@ contract NftMarketPlace is ReentrancyGuard {
     {
         // the price need to higher than 0
         if (price <= 0) {
-            revert NftMarketPlace__PriceMustBeAboveZero();
+            revert PriceMustBeAboveZero();
         }
 
         // check if marketplace have approval to sell this NFT
         // sell NFT mean: transfer this NFT from our wallet to another wallet
         IERC721 nftContractInstance = IERC721(nftContractAddress);
         if (nftContractInstance.getApproved(tokenId) != address(this)) {
-            revert NftMarketPlace__NotApprovedForMarketPlace();
+            revert NotApprovedForMarketPlace();
         }
 
         // update the listing mapping
@@ -136,7 +136,7 @@ contract NftMarketPlace is ReentrancyGuard {
 
         //* the send value need to equal price
         if (msg.value < listedItem.price) {
-            revert NftMarketPlace__PriceNotMet();
+            revert PriceNotMet();
         }
 
         //* update fund for seller
@@ -210,7 +210,7 @@ contract NftMarketPlace is ReentrancyGuard {
 
         (bool success, ) = payable(msg.sender).call{value: balance}("");
         if (!success) {
-            revert NftMarketPlace__WithdrawProceedsFailed();
+            revert WithdrawProceedsFailed();
         }
     }
 

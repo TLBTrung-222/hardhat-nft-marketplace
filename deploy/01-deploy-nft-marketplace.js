@@ -7,7 +7,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deployer } = await getNamedAccounts();
     // deploy
 
-    const marketplaceContract = await deploy("NftMarketPlace", {
+    const marketplaceContract = await deploy("NftMarketplace", {
         from: deployer,
         args: [],
         log: true,
