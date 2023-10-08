@@ -5,7 +5,6 @@ const { verify } = require("../utils/verify");
 module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deploy, log } = deployments;
     const { deployer } = await getNamedAccounts();
-    const accounts = await ethers.getSigners();
     // deploy the contract
     const basicNft = await deploy("BasicNft", {
         from: deployer,
