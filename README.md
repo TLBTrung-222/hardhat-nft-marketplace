@@ -7,3 +7,5 @@ Functionality:
 3. `cancelListing`: Allow seller to cancel the NFTs listed
 4. `withdrawProceeds`: Allow seller to withdraw money from bought NFTs
 5. `buyItem`: Buy the NFTs
+
+_For more detail about how you can play with this project, check out the full [repo](https://github.com/TLBTrung-222/nextJS-nft-marketplace)_
